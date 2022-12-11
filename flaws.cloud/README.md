@@ -220,19 +220,33 @@ The objective talks about a snapshot of an EC2 instance on which a static web pa
     - Login to AWS web console, and go to the EC2 Dashboard which is accessible at the given URL.
     https://us-west-2.console.aws.amazon.com/ec2/home
     - Click on the orange "Launch instance" button to open the dropdown menu and select "Launch instance".
+    
     ![](./images/4.1.jpg)
+    
     - On the new page, given a name to the instance, let's say "myInstance" and scroll down.
+    
     ![](./images/4.2.jpg)
+    
     - Then, select "Amazon Linux 2" as the OS image and scroll down.
+    
     ![](./images/4.3.jpg)
+    
     - Select a key pair or, just continue to without it if you wish to proceed insecurely and scroll down.
+    
     ![](./images/4.4.jpg)
+    
     - Select the "Advanced" option under the "Configure storage" to expand it and click on the "Add new volume" button.
+    
     ![](./images/4.5.jpg)
+    
     - In the Snapshot field of the newly added volume section, add the snapshotID obtained from the output of the last command.
+    
     ![](./images/4.6.jpg)
+    
     - Scroll down, leave rest everything as default and click on the "Launch instance" button then, connect the instance.
+    
     ![](./images/4.7.jpg)
+    
 5. After gaining a shell on the new EC2 instance, we need to mount the attached volume locally so first, we'll list the attached volumes.
     ```
     $ lsblk
