@@ -535,7 +535,9 @@ The objective states that there is a SecurityAudit policy attached to the given 
 After a bit of Google search, we found the format, 
 `https://{restapi_id}.execute-api.{region}.amazonaws.com/{stage_name}/`
 Where, {restapi_id} is the API identifier, {region} is the Region, and {stage_name} is the stage name of the API deployment.
+
 ![](./images/6.1.jpg)
+
 10. Now, we'll contruct a rest API in this format and append /level6 to it as show in the lambda funtion details.
 After making this API call, we'll get the address to the end of this challenge.
 `https://s33ppypa75.execute-api.us-west-2.amazonaws.com/Prod/level6`
