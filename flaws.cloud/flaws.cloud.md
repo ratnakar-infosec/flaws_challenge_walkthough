@@ -31,7 +31,7 @@ http://flaws.cloud.s3.amazonaws.com
 4. There is an interesting file called *secret-dd02c7c.html*, we can try to access. On accessing, it solves this challenge and gives the address to the next one.
 http://flaws.cloud.s3.amazonaws.com/secret-dd02c7c.html
 
-**Vulnerability:** The bucket access policy was configured in such a was that "Everyone" was allowed to list the contents of the bucket. Due to which, lterally anyone on the Internet can list the files.
+**Vulnerability:** The bucket access policy was configured in such a way that "Everyone" was allowed to list the contents of the bucket. Due to which, literally anyone on the Internet can list the files.
 
 **Solution:** While hosting static website on S3 buckets, we should avoid changing the default setting to grant unnecessary permissions like the list permission to everyone in this case.
 
@@ -60,7 +60,7 @@ With the given objection in hand, it is obvious that this is pretty much similar
     2017-02-27 07:32:14         26 robots.txt
     2017-02-27 07:32:15       1051 secret-e4443fc.html
     ```
-3. There is an interesting file called secret-e4443fc.html. On accessing this files, it solves this challenge and gives the address to the next one.
+3. There is an interesting file called secret-e4443fc.html. On accessing these files, it solves this challenge and gives the address to the next one.
 http://level2-c8b217a33fcf1f839f6f1f73a00a9ae7.flaws.cloud.s3.amazonaws.com/secret-e4443fc.html
 
 **Vulnerability:** This time, the bucket access policy was configured in such a was that "Any Authenticated AWS User" was allowed to list the contents of the bucket. Which means anyone with an AWS account can list the files.
@@ -73,7 +73,7 @@ Source: http://level3-9afd3927f195e10225021a578e6f78df.flaws.cloud
 **Objective:** The next level is fairly similar, with a slight twist. Time to find your first AWS key! I bet you'll find something that will let you list what other buckets are.
 
 **Steps:**
-Again, the objective suggests that it is related to S3 and this time, we have to find AWS secrect and access keys in it.
+Again, the objective suggests that it is related to S3 and this time, we have to find AWS secret and access keys in it.
 1. Being with browsing this bucket via the AWS CLI.
     ```
     $ aws s3 ls s3://level3-9afd3927f195e10225021a578e6f78df.flaws.cloud
@@ -87,7 +87,7 @@ Again, the objective suggests that it is related to S3 and this time, we have to
     2017-02-27 05:44:33         26 robots.txt
     ```
 2. There is a *.git* directory which means this S3 bucket is being tracked in a git repository.
-Let's just recursively copy this S3 directory locally in a directory called level3 to deal with it more cosely.
+Let's just recursively copy this S3 directory locally in a directory called level3 to deal with it more closely.
     ```
     $ aws s3 sync s3://level3-9afd3927f195e10225021a578e6f78df.flaws.cloud ./level3
     download: s3://level3-9afd3927f195e10225021a578e6f78df.flaws.cloud/.git/COMMIT_EDITMSG to level3/.git/COMMIT_EDITMSG
@@ -110,7 +110,7 @@ Let's just recursively copy this S3 directory locally in a directory called leve
     
         first commit
     ```
-4. It seems that they have accidently commited something secrect, which obviously will be the AWS access and the secret keys.
+4. It seems that they have accidently committed something secret, which obviously will be the AWS access and the secret keys.
 Let's see the difference between these two commits and try to find something.
     ```
     $ git diff b64c8d f52ec0
@@ -123,7 +123,7 @@ Let's see the difference between these two commits and try to find something.
     +access_key AKIAJ366LIPB4IJKT7SA
     +secret_access_key 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
     ```
-5. Here we go, we got the AWS keys which were accidently commited then were removed in the next commit.
+5. Here we go, we got the AWS keys which were accidently committed then were removed in the next commit.
 Creating a new profile using the AWS CLI's configure utility and the AWS keys called *level3*.
     ```
     $ aws configure --profile flaws
@@ -146,7 +146,7 @@ Creating a new profile using the AWS CLI's configure utility and the AWS keys ca
     ...
     ```
 
-**Vulnerability:** AWS access and secret keys were nore rolled after being commited on GitHub.
+**Vulnerability:** AWS access and secret keys were not rolled after being accidently committed on GitHub.
 
 **Solution:** Frequently roll the secret keys, especially if it has been suspected they have been leaked somewhere.
 
@@ -292,7 +292,7 @@ The objective talks about a snapshot of an EC2 instance on which a static web pa
 
 **Vulnerability:** An EBS volume snapshot with sensitive credentials was made public.
 
-**Solution:** EBS volume snapshots containing sensitive information such as keys, credentials etc, should never be made public for any means such as sharing. If they has to be shared, then it must be done by specifically sharing the snapshot with that account.
+**Solution:** EBS volume snapshots containing sensitive information such as keys, credentials etc, should never be made public for any means such as sharing. If they have to be shared, then it must be done by specifically sharing the snapshot with that account.
 
 ## Level 5
 Source: http://level5-d2891f604d2061b6977c2481b0c8333e.flaws.cloud/243f422c
@@ -315,7 +315,7 @@ The objective states that the given EC2 has an HTTP only proxy which have use in
     <A HREF="http://www.google.com/">here</A>.
     </BODY></HTML>
     ```
-2. Lets try to leverage this proxy to access the metadata service that runs at `http://169.254.169.254/latest/meta-data`
+2. Let's try to leverage this proxy to access the metadata service that runs at `http://169.254.169.254/latest/meta-data`
     ```
     $ curl http://4d0cf09b9b2d761a7d87be99d17507bce8b86f3b.flaws.cloud/proxy/169.254.169.254/latest/meta-data
     ami-id
@@ -375,15 +375,15 @@ The objective states that the given EC2 has an HTTP only proxy which have use in
                                PRE ddcc78ff/
     2017-02-27 07:41:07        871 index.html
     ```
-6. Now, as we know the PRE sub-directory is *ddcc78ff/*, we can access the same at http://level6-cc4c404a8a8b876167f5e70a7d8c9880.flaws.cloud/ddcc78ff
+6. Now, as we know the sub-directory is *ddcc78ff/*, we can access the same at http://level6-cc4c404a8a8b876167f5e70a7d8c9880.flaws.cloud/ddcc78ff
 
 **Vulnerability:** EC2 IMDSv1 was being used which is less secure as it allows reaching the metadata endpoint located at `http://169.254.169.254` with a simple GET request within the instance resulting in SSRF.
 
 **Solution:** We must ensure that our applications restrict access to 169.254.169.254 or any other local/private and private IPs. 
 
 **Recommendation:**
-- Enfore the usage of IMDSv2 and avoid IMDSv1 because IMDSv2 uses a session-oriented method which is least susceptible to SSRF.
-- Follow the The principle of least privilege for IAM roles to enforce resctrictions.
+- Enforce the usage of IMDSv2 and avoid IMDSv1 because IMDSv2 uses a session-oriented method which is least susceptible to SSRF.
+- Follow the the principle of least privilege for IAM roles to enforce restrictions.
 
 ## Level 6
 Source: http://level6-cc4c404a8a8b876167f5e70a7d8c9880.flaws.cloud/ddcc78ff/index.html
@@ -475,7 +475,7 @@ The objective states that there is a SecurityAudit policy attached to the given 
         }
     }
     ```
-6. The output suggests that the target resource is an API. We know that the most common target for an API gateway is a Lambda function, so out next task it to figure out what all lamda functions are there.
+6. The output suggests that the target resource is an API. We know that the most common target for an API gateway is a Lambda function, so out next task it to figure out what all lambda functions are there.
     ```
     $ aws lambda list-functions --profile level6
     {
@@ -538,7 +538,7 @@ Where, {restapi_id} is the API identifier, {region} is the Region, and {stage_na
 
 ![](./images/6.1.jpg)
 
-10. Now, we'll contruct a rest API in this format and append /level6 to it as show in the lambda funtion details.
+10. Now, we'll construct a rest API in this format and append /level6 to it as show in the lambda function details.
 After making this API call, we'll get the address to the end of this challenge.
 `https://s33ppypa75.execute-api.us-west-2.amazonaws.com/Prod/level6`
     ```
@@ -548,7 +548,7 @@ After making this API call, we'll get the address to the end of this challenge.
 
 **Vulnerability:** Unnecessary permissions result in information disclosure.
 
-**Solution:** Avoind grating permissions generously, even those which only let someone read the meta-data or reveal permissions.
+**Solution:** Avoid grating permissions generously, even those which only let someone read the meta-data or reveal permissions.
 
 **Recommendation:**
-- Follow the The principle of least privilege for IAM roles to enforce resctrictions.
+- Follow the the principle of least privilege for IAM roles to enforce restrictions.
