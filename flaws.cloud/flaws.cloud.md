@@ -33,7 +33,7 @@ http://flaws.cloud.s3.amazonaws.com/secret-dd02c7c.html
 
 **Vulnerability:** The bucket access policy was configured in such a way that "Everyone" was allowed to list the contents of the bucket. Due to which, literally anyone on the Internet can list the files.
 
-**Solution:** While hosting static website on S3 buckets, we should avoid changing the default setting to grant unnecessary permissions like the list permission to everyone in this case.
+**Remediation:** While hosting static website on S3 buckets, we should avoid changing the default setting to grant unnecessary permissions like the list permission to everyone in this case.
 
 ## Level 2
 Source: http://level2-c8b217a33fcf1f839f6f1f73a00a9ae7.flaws.cloud/
@@ -65,7 +65,7 @@ http://level2-c8b217a33fcf1f839f6f1f73a00a9ae7.flaws.cloud.s3.amazonaws.com/secr
 
 **Vulnerability:** This time, the bucket access policy was configured in such a was that "Any Authenticated AWS User" was allowed to list the contents of the bucket. Which means anyone with an AWS account can list the files.
 
-**Solution:** We should avoid changing the default setting to grant unnecessary permissions, even to "Any Authenticated AWS User".
+**Remediation:** We should avoid changing the default setting to grant unnecessary permissions, even to "Any Authenticated AWS User".
 
 ## Level 3
 Source: http://level3-9afd3927f195e10225021a578e6f78df.flaws.cloud
@@ -148,7 +148,7 @@ Creating a new profile using the AWS CLI's configure utility and the AWS keys ca
 
 **Vulnerability:** AWS access and secret keys were not rolled after being accidently committed on GitHub.
 
-**Solution:** Frequently roll the secret keys, especially if it has been suspected they have been leaked somewhere.
+**Remediation:** Frequently roll the secret keys, especially if it has been suspected they have been leaked somewhere.
 
 ## Level 4
 Source: http://level4-1156739cfb264ced6de514971a4bef68.flaws.cloud
@@ -292,7 +292,7 @@ The objective talks about a snapshot of an EC2 instance on which a static web pa
 
 **Vulnerability:** An EBS volume snapshot with sensitive credentials was made public.
 
-**Solution:** EBS volume snapshots containing sensitive information such as keys, credentials etc, should never be made public for any means such as sharing. If they have to be shared, then it must be done by specifically sharing the snapshot with that account.
+**Remediation:** EBS volume snapshots containing sensitive information such as keys, credentials etc, should never be made public for any means such as sharing. If they have to be shared, then it must be done by specifically sharing the snapshot with that account.
 
 ## Level 5
 Source: http://level5-d2891f604d2061b6977c2481b0c8333e.flaws.cloud/243f422c
@@ -379,7 +379,7 @@ The objective states that the given EC2 has an HTTP only proxy which have use in
 
 **Vulnerability:** EC2 IMDSv1 was being used which is less secure as it allows reaching the metadata endpoint located at `http://169.254.169.254` with a simple GET request within the instance resulting in SSRF.
 
-**Solution:** We must ensure that our applications restrict access to 169.254.169.254 or any other local/private and private IPs. 
+**Remediation:** We must ensure that our applications restrict access to 169.254.169.254 or any other local/private and private IPs. 
 
 **Recommendation:**
 - Enforce the usage of IMDSv2 and avoid IMDSv1 because IMDSv2 uses a session-oriented method which is least susceptible to SSRF.
@@ -548,7 +548,7 @@ After making this API call, we'll get the address to the end of this challenge.
 
 **Vulnerability:** Unnecessary permissions result in information disclosure.
 
-**Solution:** Avoid grating permissions generously, even those which only let someone read the meta-data or reveal permissions.
+**Remediation:** Avoid grating permissions generously, even those which only let someone read the meta-data or reveal permissions.
 
 **Recommendation:**
 - Follow the the principle of least privilege for IAM roles to enforce restrictions.
